@@ -373,7 +373,7 @@ void first_update() {
             std::chrono::duration<double>(1) / TARGET_UPS);
     auto target_time = fixed_update_start_time;
     std::deque update_times{fixed_update_start_time};
-    while (!glfwWindowShouldClose(window)) {
+    while (is_running) {
       target_time += ms;
       fixed_update();
       auto now = std::chrono::high_resolution_clock::now();
@@ -387,6 +387,11 @@ void first_update() {
       fixed_updates_per_second_stat = update_times.size();
       std::this_thread::sleep_until(target_time);
     }
+  });
+  std::atexit([] {
+    is_running = false;
+    if (fixed_update_thread.joinable())
+      fixed_update_thread.join();
   });
 }
 
