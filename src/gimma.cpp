@@ -9,6 +9,7 @@
 #include <simple-2d/2d.h>
 #include <simple-2d/image.h>
 #include <simple-2d/setup.h>
+#include "resources.h"
 
 constexpr bool LOG_FPS = false;
 constexpr bool DEBUG_PHYSICS_MODE = false;
@@ -21,11 +22,27 @@ constexpr double BALL_GRAVITY = 0.15;
 constexpr double BALL_AIR_FRICTION = 1 - 0.005;
 // Energy loss on bounce
 constexpr double BALL_ENERGY_LOSS = 0.7;
-Image hit_peg_img;
-Image peg_img;
-Image rectangle_img;
-Image gun_img;
-Image ball_img;
+
+Image load_resource_image(const unsigned char *data, unsigned size) {
+  const std::vector image_data(data, data + size);
+  auto img = decode_image(image_data);
+  if (!img) {
+    std::cerr << "Failed to load image from resource data" << std::endl;
+    exit(1);
+  }
+  return img.value();
+}
+
+Image hit_peg_img = load_resource_image(RESOURCES_hit_peg_png,
+                                        RESOURCES_hit_peg_png_size);
+Image peg_img = load_resource_image(RESOURCES_peg_png,
+                                    RESOURCES_peg_png_size);
+Image rectangle_img = load_resource_image(RESOURCES_rect_png,
+                                          RESOURCES_rect_png_size);
+Image gun_img = load_resource_image(RESOURCES_gun_png,
+                                    RESOURCES_gun_png_size);
+Image ball_img = load_resource_image(RESOURCES_ball_png,
+                                     RESOURCES_ball_png_size);
 
 double draw_now;
 double last_fixed_update_time;
@@ -331,11 +348,6 @@ void init(Callbacks &on) {
       exit(0);
     }
   };
-  hit_peg_img = load_image("assets/hit_peg.png").value();
-  peg_img = load_image("assets/peg.png").value();
-  rectangle_img = load_image("assets/rect.png").value();
-  gun_img = load_image("assets/gun.png").value();
-  ball_img = load_image("assets/ball.png").value();
 
   bool flip = false;
   for (int y = 32; y < 300; y += 64) {
