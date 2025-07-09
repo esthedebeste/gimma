@@ -316,7 +316,7 @@ void Ball::update() {
   }
 
   // Check for wall collisions
-  if (x() < 0 || x() + width() > ::width || y() < 0) {
+  if (x() < 0 || x() + width() > ::width) {
     if (x() < 0)
       velocity().x(std::abs(velocity().x()));
     else if (x() + width() > ::width)
