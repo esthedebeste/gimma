@@ -9,7 +9,7 @@ function(create_resources dir output header)
     file(WRITE ${output} "")
     file(WRITE ${header} "")
     # Collect input files
-    file(GLOB bins ${dir}/*)
+    file(GLOB_RECURSE bins ${dir}/*)
     # Iterate through input files
     foreach (bin ${bins})
         # Get short filename
@@ -30,7 +30,7 @@ endfunction()
 create_resources(assets ${CMAKE_CURRENT_BINARY_DIR}/resources.c ${CMAKE_CURRENT_BINARY_DIR}/include/resources.h)
 
 add_subdirectory(deps/simple-2d)
-file(GLOB_RECURSE gimmasrc src/*.cpp ${CMAKE_CURRENT_BINARY_DIR}/resources.c ${CMAKE_CURRENT_BINARY_DIR}/include/resources.h)
+file(GLOB_RECURSE gimmasrc CONFIGURE_DEPENDS src/*.cpp src/*.h ${CMAKE_CURRENT_BINARY_DIR}/resources.c ${CMAKE_CURRENT_BINARY_DIR}/include/resources.h)
 add_executable(gimma ${gimmasrc})
 target_link_libraries(gimma PRIVATE simple-2d)
 target_include_directories(gimma PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
