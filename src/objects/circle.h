@@ -2,8 +2,8 @@
 #include "object.h"
 
 struct CircleObject : Object {
-  CircleObject(Level *level, double x, double y, const Image *img)
-    : Object(level, x, y, img) { }
+  CircleObject(Level *level, double cx, double cy, const Image *img)
+    : Object(level, cx - img->width / 2, cy - img->height / 2, img) { }
 
   double radius() {
     return width() / 2;

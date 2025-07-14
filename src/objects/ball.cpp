@@ -25,8 +25,13 @@ void Ball::update() {
       double distance = std::sqrt(dx * dx + dy * dy);
       if (distance == 0)
         continue; // Avoid division by zero
-      velocity().x(dx / distance * origMagnitude);
-      velocity().y(dy / distance * origMagnitude);
+      const double origAngle = std::atan2(velocity().y(), velocity().x());
+      const double reflectAngle = std::atan2(-dx, dy);
+      const double angleDiff = reflectAngle - origAngle;
+      // Reflect the velocity vector
+      const double newAngle = origAngle + 2 * angleDiff;
+      velocity().x(std::cos(newAngle) * origMagnitude);
+      velocity().y(std::sin(newAngle) * origMagnitude);
       if (auto peg = dynamic_cast<Peg *>(c)) {
         peg->hit();
       }
@@ -46,11 +51,12 @@ void Ball::update() {
         velocity().y(std::abs(velocity().y()));
       }
     }
-    while (collidingWith(*other)) {
-      // Move out of collision
-      position().x(position().x() + velocity().x() * 0.1);
-      position().y(position().y() + velocity().y() * 0.1);
-    }
+    if (velocity().distanceSq(Vec2D(0, 0)) > 1)
+      while (collidingWith(*other)) {
+        // Move out of collision
+        position().x(position().x() + velocity().x() * 0.1);
+        position().y(position().y() + velocity().y() * 0.1);
+      }
     velocity() = velocity() * BALL_ENERGY_LOSS; // lose some energy
     break;
   }

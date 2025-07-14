@@ -47,8 +47,8 @@ void first_update() {
   {
     Level &level = *levels.emplace_back(std::make_unique<Level>());
     bool flip = false;
-    for (int y = 32; y < 300; y += 64) {
-      for (int x = flip ? 32 : 64; x < 800 - 64; x += 64) {
+    for (int y = 64; y < 300; y += 80) {
+      for (int x = flip ? 32 : 16; x < 800; x += 64) {
         level.addObject(std::make_unique<Peg>(&level, x, y));
       }
       flip = !flip;
@@ -77,45 +77,30 @@ void first_update() {
     level.addObject(std::make_unique<Peg>(&level, 380, 115));
     level.addObject(std::make_unique<Peg>(&level, 342, 118));
     level.addObject(std::make_unique<Peg>(&level, 495, 122));
-    level.addObject(std::make_unique<Peg>(&level, 335, 129));
     level.addObject(std::make_unique<Peg>(&level, 314, 129));
-    level.addObject(std::make_unique<Peg>(&level, 272, 150));
+    level.addObject(std::make_unique<Peg>(&level, 250, 150));
     level.addObject(std::make_unique<Peg>(&level, 285, 140));
-    level.addObject(std::make_unique<Peg>(&level, 265, 150));
-    level.addObject(std::make_unique<Peg>(&level, 244, 160));
     level.addObject(std::make_unique<Peg>(&level, 233, 171));
     level.addObject(std::make_unique<Peg>(&level, 216, 185));
     level.addObject(std::make_unique<Peg>(&level, 198, 195));
     level.addObject(std::make_unique<Peg>(&level, 181, 209));
     level.addObject(std::make_unique<Peg>(&level, 310, 398));
-    level.addObject(std::make_unique<Peg>(&level, 303, 381));
     level.addObject(std::make_unique<Peg>(&level, 300, 374));
-    level.addObject(std::make_unique<Peg>(&level, 293, 353));
     level.addObject(std::make_unique<Peg>(&level, 289, 332));
     level.addObject(std::make_unique<Peg>(&level, 286, 315));
     level.addObject(std::make_unique<Peg>(&level, 531, 405));
-    level.addObject(std::make_unique<Peg>(&level, 524, 385));
     level.addObject(std::make_unique<Peg>(&level, 524, 374));
     level.addObject(std::make_unique<Peg>(&level, 524, 357));
     level.addObject(std::make_unique<Peg>(&level, 524, 336));
     level.addObject(std::make_unique<Peg>(&level, 524, 318));
     level.addObject(std::make_unique<Peg>(&level, 443, 325));
     level.addObject(std::make_unique<Peg>(&level, 419, 290));
-    level.addObject(std::make_unique<Peg>(&level, 412, 283));
     level.addObject(std::make_unique<Peg>(&level, 401, 273));
     level.addObject(std::make_unique<Peg>(&level, 384, 248));
-    level.addObject(std::make_unique<Peg>(&level, 373, 238));
     level.addObject(std::make_unique<Peg>(&level, 366, 224));
-    level.addObject(std::make_unique<Peg>(&level, 380, 217));
-    level.addObject(std::make_unique<Peg>(&level, 397, 217));
-    level.addObject(std::make_unique<Peg>(&level, 422, 217));
-    level.addObject(std::make_unique<Peg>(&level, 436, 213));
+    level.addObject(std::make_unique<Peg>(&level, 420, 213));
     level.addObject(std::make_unique<Peg>(&level, 450, 213));
-    level.addObject(std::make_unique<Peg>(&level, 412, 301));
-    level.addObject(std::make_unique<Peg>(&level, 418, 301));
-    level.addObject(std::make_unique<Peg>(&level, 422, 307));
   }
-
   level_index = 0;
   curr_level = levels[level_index].get();
   curr_level->start();

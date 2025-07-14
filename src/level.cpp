@@ -45,6 +45,25 @@ void Level::draw() {
   rotate(angleToMouse + 90);
   image(gun_img, -gunWidth / 2, -gunHeight / 2);
   pop_matrix();
+  double velX = std::cos(angleToMouse / 180 * std::numbers::pi);
+  double velY = std::sin(angleToMouse / 180 * std::numbers::pi);
+  double prevX = ::width / 2 + velX * 40;
+  double prevY = ::height + velY * 40;
+  velX *= BALL_SHOOTING_STRENGTH;
+  velY *= BALL_SHOOTING_STRENGTH;
+  for (int i = 0; i < 100; ++i) {
+    double x = prevX + velX;
+    double y = prevY + velY;
+    color(1, 0.2, 0.2, 0.2);
+    line_width(3.5);
+    if (i % 5 == 4)
+      line(prevX, prevY, x, y);
+    velY -= BALL_GRAVITY;
+    velX *= BALL_AIR_FRICTION;
+    velY *= BALL_AIR_FRICTION;
+    prevX = x;
+    prevY = y;
+  }
 
   color(0, 0, 0, 1);
   circle(mouse_x, mouse_y, 2);
