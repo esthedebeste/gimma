@@ -7,10 +7,21 @@
 
 void Ball::update() {
   CircleObject::update();
+  const double origMagnitude = velocity().distance(Vec2D(0, 0));
+  if (origMagnitude < 10 / TARGET_UPS)
+    m_time_slow++;
   velocity().y(velocity().y() - BALL_GRAVITY);
   velocity() = velocity() * BALL_AIR_FRICTION;
 
-  const double origMagnitude = velocity().distance(Vec2D(0, 0));
+  if (y() < -height())
+    m_time_slow += 5;
+  if (m_time_slow > 100) {
+    for (auto &peg : m_hit_pegs) {
+      level()->to_remove.insert(peg);
+    }
+    level()->to_remove.insert(this);
+    return;
+  }
   // Check for collisions with other objects
   for (auto &other : level()->objects) {
     if (this == other.get())
@@ -30,10 +41,13 @@ void Ball::update() {
       const double angleDiff = reflectAngle - origAngle;
       // Reflect the velocity vector
       const double newAngle = origAngle + 2 * angleDiff;
-      velocity().x(std::cos(newAngle) * origMagnitude);
-      velocity().y(std::sin(newAngle) * origMagnitude);
+      Vec2D reflected(std::cos(newAngle), std::sin(newAngle));
+      Vec2D bounced(dx / distance, dy / distance);
+      velocity() = reflected * origMagnitude * 0.8 + bounced * origMagnitude *
+                   0.2;
       if (auto peg = dynamic_cast<Peg *>(c)) {
         peg->hit();
+        m_hit_pegs.insert(peg);
       }
     } else if (auto r = dynamic_cast<RectObject *>(other.get())) {
       // Bounce off rectangle

@@ -15,6 +15,7 @@
 #include <chrono>
 #include <functional>
 #include <deque>
+#include <set>
 
 
 void Level::draw() {
@@ -94,13 +95,13 @@ void Level::update() {
   for (auto &obj : objects)
     obj->update();
   for (auto it = objects.begin(); it != objects.end();) {
-    if ((*it)->y() < -(*it)->height()) {
-      // Remove things in the void
+    if (to_remove.contains(it->get())) {
       it = objects.erase(it);
     } else {
       ++it;
     }
   }
+  to_remove.clear();
 }
 
 void Level::update_worker() {
@@ -128,12 +129,26 @@ void Level::update_worker() {
   }
 }
 
+void Level::start() {
+  is_running = true;
+  fixed_update_thread = std::jthread([this] {
+    return update_worker();
+  });
+
+  random_engine.seed(std::random_device()());
+  std::bernoulli_distribution bernoulli_dist(0.3);
+  for (auto &obj : objects)
+    if (const auto peg = dynamic_cast<Peg *>(obj.get())) {
+      peg->set_required(bernoulli_dist(random_engine));
+    }
+}
+
 bool Level::is_complete() {
   if (!texts.empty())
     return false;
   for (auto &obj : objects)
     if (const auto peg = dynamic_cast<Peg *>(obj.get()))
-      if (!peg->is_hit())
+      if (peg->is_required() && !peg->is_hit())
         return false; // Still pegs left
   return true; // All pegs hit
 }

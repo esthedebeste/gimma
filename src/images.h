@@ -3,6 +3,8 @@
 
 extern Image hit_peg_img;
 extern Image peg_img;
+extern Image required_hit_peg_img;
+extern Image required_peg_img;
 extern Image rectangle_img;
 extern Image small_rectangle_img;
 extern Image gun_img;

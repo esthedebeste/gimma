@@ -16,6 +16,10 @@ Image hit_peg_img = load_resource_image(RESOURCES_hit_peg_png,
                                         RESOURCES_hit_peg_png_size);
 Image peg_img = load_resource_image(RESOURCES_peg_png,
                                     RESOURCES_peg_png_size);
+Image required_hit_peg_img = load_resource_image(RESOURCES_required_hit_peg_png,
+                                                 RESOURCES_required_hit_peg_png_size);
+Image required_peg_img = load_resource_image(RESOURCES_required_peg_png,
+                                             RESOURCES_required_peg_png_size);
 Image rectangle_img = load_resource_image(RESOURCES_rect_png,
                                           RESOURCES_rect_png_size);
 Image small_rectangle_img = load_resource_image(RESOURCES_small_rect_png,

@@ -3,7 +3,8 @@
 #include "../images.h"
 #include "../level.h"
 
-Peg::Peg(Level* level, double x, double y) : CircleObject(level, x, y, &peg_img) { }
+Peg::Peg(Level *level, double x, double y)
+  : CircleObject(level, x, y, &peg_img) { }
 
 void Peg::hit() {
   if (!m_hit)
@@ -12,9 +13,13 @@ void Peg::hit() {
 }
 
 void Peg::draw() {
-  if (m_hit)
-    img() = &hit_peg_img;
-  else
+  if (m_required && !m_hit)
+    img() = &required_peg_img;
+  else if (m_required && m_hit)
+    img() = &required_hit_peg_img;
+  else if (!m_required && !m_hit)
     img() = &peg_img;
+  else if (!m_required && m_hit)
+    img() = &hit_peg_img;
   CircleObject::draw();
 }
