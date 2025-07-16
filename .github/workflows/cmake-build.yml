@@ -43,6 +43,6 @@ jobs:
       uses: actions/upload-artifact@v4.6.2
       with:
         name: gimma.exe
-        path: ${{github.workspace}}/build/gimma.exe
+        path: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/gimma.exe
         compression-level: 0
 
