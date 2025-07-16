@@ -172,8 +172,8 @@ void first_update() {
   }
   {
     Level &level = *levels.emplace_back(std::make_unique<Level>(5));
-    level.addObject(std::make_unique<Peg>(&level, 692, 541));
-    level.addObject(std::make_unique<Peg>(&level, 730, 507));
+    level.addObject(std::make_unique<Peg>(&level, 692, 521));
+    level.addObject(std::make_unique<Peg>(&level, 730, 487));
     level.addObject(std::make_unique<Peg>(&level, 741, 457));
     level.addObject(std::make_unique<Peg>(&level, 713, 419));
     level.addObject(std::make_unique<Peg>(&level, 664, 416));
